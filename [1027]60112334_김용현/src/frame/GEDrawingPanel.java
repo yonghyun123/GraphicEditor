@@ -1,4 +1,5 @@
 package frame;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -9,7 +10,6 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
-
 import shapes.GEPolygon;
 import shapes.GEShapes;
 
@@ -19,23 +19,33 @@ public class GEDrawingPanel extends JPanel {
 	static private enum EState{
 		idle, drawing,Polygon;
 	}
+	static private enum EAnchorState{
+		idle, onAnchor;
+	}
 	//attribute
 	private static final long serialVersionUID = 1L;
 	//working variables
-	private GEShapes mShapes;
+	private GEShapes mShapes, selectedShape;
 	private ArrayList<GEShapes> mShapelists;
 	private EState eState;
-	
+	private EAnchorState eAnchorState;
 	//associative attributes
 
 	public GEDrawingPanel(){
 		super();
 		eState=EState.idle;
+		eAnchorState=EAnchorState.idle;
 		mShapelists=new ArrayList<GEShapes>();
 		MouseHandler mouseEventHandler=new MouseHandler();
 		this.addMouseListener(mouseEventHandler);
 		this.addMouseMotionListener(mouseEventHandler);
 	}
+	
+	
+	public void setShapeTool(GEShapes shapes){  //eSeletedTool을 이용해 어떤 툴바인지 설정 반드시 static
+		this.mShapes=shapes;
+	}	
+	
 	public void initialize() {
 		// TODO Auto-generated method stub
 		
@@ -72,15 +82,30 @@ public class GEDrawingPanel extends JPanel {
 		
 	}
 	
-	public void draw(int sx, int sy, int ex, int ey){
-		
+	private GEShapes onShape(Point p){
+		Cursor mCursor=new Cursor(Cursor.HAND_CURSOR);
+		for(int i=mShapelists.size();i>0;i--){
+			GEShapes shape=mShapelists.get(i-1);
+			if(shape.onShape(p)){
+				
+				setCursor(mCursor);
+				return shape;
+			}
+		}
+		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		System.out.println("null");
+		return null;
+	}
+	
+	private void clearSelectedShapes(){
+		for(GEShapes shape:mShapelists){
+			shape.setSelected(false);
+		}
 	}
 	
 	class MouseHandler
 		implements MouseInputListener, MouseMotionListener{
-
 		
-
 		public void mouseClicked(MouseEvent e) {
 			if(e.getButton() == MouseEvent.BUTTON1){
 				if(eState == EState.Polygon){
@@ -101,16 +126,25 @@ public class GEDrawingPanel extends JPanel {
 		}
 		public void mousePressed(MouseEvent e) {
 			if(eState == EState.idle){
-				initDrawing(e.getPoint());
-				if(mShapes instanceof GEPolygon){
-					eState = EState.Polygon;
+				if(mShapes!=null){
+					clearSelectedShapes();
+					initDrawing(e.getPoint());
+					if(mShapes instanceof GEPolygon){
+						eState = EState.Polygon;
+					}
+					else{
+						eState=EState.drawing;
+					}
 				}
-				else{
-					eState=EState.drawing;
+				
+				if(eAnchorState==EAnchorState.idle){
+					selectedShape=onShape(e.getPoint());
+					if(selectedShape!=null){
+						clearSelectedShapes();
+						selectedShape.setSelected(true);
+					}
 				}
 			}
-			System.out.println(eState);
-			
 		}
 		public void mouseReleased(MouseEvent e) {
 			
@@ -126,12 +160,14 @@ public class GEDrawingPanel extends JPanel {
 		public void mouseMoved(MouseEvent e) {
 			if(eState == EState.Polygon){
 				keepDrawing(e.getPoint());
-				System.out.println(e.getPoint());
 			}
+			selectedShape=onShape(e.getPoint());
+			if(selectedShape!=null){
+				clearSelectedShapes();
+				selectedShape.setSelected(true);
+			}
+			
 		}	
 	}
-	
-	public void setShapeTool(GEShapes shapes){  //eSeletedTool을 이용해 어떤 툴바인지 설정 반드시 static
-		this.mShapes=shapes;
-	}	
+
 }
