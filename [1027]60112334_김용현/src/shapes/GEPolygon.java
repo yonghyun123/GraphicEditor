@@ -12,6 +12,7 @@ public class GEPolygon extends GEShapes {
 	}
 	public void initPosition(Point start) {
 		((Polygon) mShapes).addPoint(start.x, start.y);
+		
 	}
 	public void continueDrawing(Point continueP){
 		((Polygon)mShapes).addPoint(continueP.x, continueP.y);

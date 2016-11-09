@@ -34,7 +34,7 @@ public class GEToolBar extends JToolBar {
 			this.add(radioButton);
 			buttonGroup.add(radioButton);
 			radioButton.addActionListener(actionHandler);
-			radioButton.setActionCommand(mButton.name());
+			radioButton.setActionCommand(mButton.toString());
 		}	
 
 	}

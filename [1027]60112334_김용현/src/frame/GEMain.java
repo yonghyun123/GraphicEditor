@@ -5,6 +5,5 @@ public class GEMain {
 		// object name & body created & bound
 		GEMainFrame mainFrame = new GEMainFrame();
 		mainFrame.init();
-		System.out.println("hello world");
 	}
 }

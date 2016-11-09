@@ -17,6 +17,10 @@ public class GERectangle extends GEShapes {
 		// TODO Auto-generated method stub
 		Rectangle tempRect=(Rectangle) mShapes;
 		tempRect.setFrameFromDiagonal(startPoint.x,startPoint.y,point.x,point.y);
+		
+		if(anchorList!=null){
+			anchorList.computeCoordinates(mShapes.getBounds());
+		}
 	}
 
 	@Override
