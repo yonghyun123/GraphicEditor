@@ -11,7 +11,10 @@ public class GEConstants {
 	public final static int FRAME_Y=100;
 	public final static int FRAME_W=400;
 	public final static int FRAME_H=600;
-
+	
+	public enum EAnchors{
+		NN,NE,NW,SS,SW,SE,EE,WW,RR, NONE;
+	}
 	
 	public static enum EFileMenuItem{
 		newItem("new"),

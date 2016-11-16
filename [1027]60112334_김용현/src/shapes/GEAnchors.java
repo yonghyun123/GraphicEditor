@@ -6,6 +6,8 @@ import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 import java.util.Vector;
 
+import constants.GEConstants.EAnchors;
+
 public class GEAnchors extends Vector<Ellipse2D.Double> {
 	public final static int ANCHORWIDTH=8;
 	public final static int ANCHORHEIGHT=8;
@@ -15,9 +17,7 @@ public class GEAnchors extends Vector<Ellipse2D.Double> {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public enum EAnchors{
-		NN,NE,NW,SS,SW,SE,EE,WW,RR, NONE;
-	}
+
 	
 	public GEAnchors() {
 		mAnchor=new Vector<Ellipse2D.Double>();

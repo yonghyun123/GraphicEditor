@@ -5,7 +5,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
 
-import shapes.GEAnchors.EAnchors;
+import constants.GEConstants;
+import constants.GEConstants.EAnchors;
 
 public abstract class GEShapes {
 	protected Shape mShapes;
@@ -13,7 +14,7 @@ public abstract class GEShapes {
 	
 	protected boolean selected;
 	protected GEAnchors anchorList;
-	protected EAnchors selectedAnchor;
+	GEConstants.EAnchors selectedAnchor;
 	
 	public GEShapes(Shape shape){
 		this.mShapes=shape;
@@ -40,6 +41,9 @@ public abstract class GEShapes {
 			anchorList=null;
 		}
 	}
+	public boolean isSelected(){
+		return selected;
+	}
 
 	public Shape getShape(){
 		return mShapes;
@@ -52,6 +56,17 @@ public abstract class GEShapes {
 				return true;
 		}
 		return mShapes.intersects(new Rectangle(p.x,p.y,2,2));
+	}
+	
+	public EAnchors onAnchor(Point p){
+		if(selectedAnchor!=null){
+			this.selectedAnchor=anchorList.onAnchors(p);
+			return selectedAnchor;
+		}
+		else{
+			return null;
+		}
+		
 	}
 	
 }

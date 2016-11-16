@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
+import constants.GEConstants;
+import constants.GEConstants.EAnchors;
 import shapes.GEPolygon;
 import shapes.GEShapes;
 
@@ -78,23 +80,43 @@ public class GEDrawingPanel extends JPanel {
 	private void finishDrawing(GEShapes shape){
 		mShapelists.add(shape);
 		eState=EState.idle;
-		repaint();
-		
+		repaint();	
 	}
 	
 	private GEShapes onShape(Point p){
-		Cursor mCursor=new Cursor(Cursor.HAND_CURSOR);
 		for(int i=mShapelists.size();i>0;i--){
 			GEShapes shape=mShapelists.get(i-1);
 			if(shape.onShape(p)){
-				
-				setCursor(mCursor);
+				setCursor(new Cursor(Cursor.HAND_CURSOR));
 				return shape;
 			}
 		}
 		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		System.out.println("null");
 		return null;
+	}
+	private void changeCursor(Point p, EAnchors eAnchors) {
+		for (GEShapes shape: this.mShapelists) {
+			switch(eAnchors){
+			case NN:
+				this.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));break;
+			case NW:
+				this.setCursor(new Cursor(Cursor.NW_RESIZE_CURSOR));break;
+			case NE:
+				this.setCursor(new Cursor(Cursor.NE_RESIZE_CURSOR));break;
+			case SS:
+				this.setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));break;
+			case SE:
+				this.setCursor(new Cursor(Cursor.SE_RESIZE_CURSOR));break;
+			case SW:
+				this.setCursor(new Cursor(Cursor.SW_RESIZE_CURSOR));break;
+			case EE:
+				this.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));break;
+			case WW:
+				this.setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));break;
+			default:
+				break;
+			}
+		}
 	}
 	
 	private void clearSelectedShapes(){
@@ -136,7 +158,6 @@ public class GEDrawingPanel extends JPanel {
 						eState=EState.drawing;
 					}
 				}
-				
 				if(eAnchorState==EAnchorState.idle){
 					selectedShape=onShape(e.getPoint());
 					if(selectedShape!=null){
@@ -160,14 +181,23 @@ public class GEDrawingPanel extends JPanel {
 		public void mouseMoved(MouseEvent e) {
 			if(eState == EState.Polygon){
 				keepDrawing(e.getPoint());
+			}else if(eState==EState.idle){
+				GEShapes shape=onShape(e.getPoint());
+				if(shape==null){
+					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				}
+				else{
+					if(shape.isSelected()){
+						GEConstants.EAnchors anchorType=shape.onAnchor(e.getPoint());
+						changeCursor(e.getPoint(), anchorType);
+					}
+					
+				}
 			}
-			selectedShape=onShape(e.getPoint());
-			if(selectedShape!=null){
-				clearSelectedShapes();
-				selectedShape.setSelected(true);
-			}
+			
+			
+	
 			
 		}	
 	}
-
 }
