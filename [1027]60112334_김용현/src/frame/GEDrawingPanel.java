@@ -3,10 +3,12 @@ import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
@@ -95,7 +97,7 @@ public class GEDrawingPanel extends JPanel {
 		return null;
 	}
 	private void changeCursor(Point p, EAnchors eAnchors) {
-		for (GEShapes shape: this.mShapelists) {
+		for (@SuppressWarnings("unused") GEShapes shape: this.mShapelists) {
 			switch(eAnchors){
 			case NN:
 				this.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));break;
@@ -113,6 +115,10 @@ public class GEDrawingPanel extends JPanel {
 				this.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));break;
 			case WW:
 				this.setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));break;
+			case RR:
+				setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
+						new ImageIcon("Image/custom.png").getImage(),
+						new Point(0,0),"custom cursor"));
 			default:
 				break;
 			}

@@ -60,6 +60,8 @@ public class GEAnchors extends Vector<Ellipse2D.Double> {
 				ANCHORWIDTH, ANCHORHEIGHT);
 		mAnchor.get(EAnchors.SE.ordinal()).setFrame(x+w-dividedX, y+h-dividedY,
 				ANCHORWIDTH, ANCHORHEIGHT);
+		mAnchor.get(EAnchors.RR.ordinal()).setFrame(x+w/2-dividedX,
+				y-40, ANCHORWIDTH, ANCHORHEIGHT);
 		
 	}
 	public void draw(Graphics2D g2D){
