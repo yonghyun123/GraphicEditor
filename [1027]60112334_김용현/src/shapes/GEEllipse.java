@@ -24,6 +24,9 @@ public class GEEllipse extends GEShapes {
 		// TODO Auto-generated method stub
 		Ellipse2D tempEllipse=(Ellipse2D)mShapes;
 		tempEllipse.setFrameFromDiagonal(startPoint, point);
+		if(anchorList!=null){
+			anchorList.computeCoordinates(mShapes.getBounds());
+		}
 		
 	}
 

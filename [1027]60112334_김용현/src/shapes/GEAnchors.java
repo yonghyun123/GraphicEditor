@@ -22,7 +22,7 @@ public class GEAnchors extends Vector<Ellipse2D.Double> {
 	public GEAnchors() {
 		mAnchor=new Vector<Ellipse2D.Double>();
 		// TODO Auto-generated constructor stub
-		for(int i=0;i<EAnchors.values().length;i++){
+		for(int i=0;i<EAnchors.values().length-1;i++){
 			mAnchor.add(new Ellipse2D.Double(0, 0, 0, 0));
 		}
 	}

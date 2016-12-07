@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 
 import constants.GEConstants;
 import constants.GEConstants.EAnchors;
@@ -14,10 +15,13 @@ public abstract class GEShapes {
 	
 	protected boolean selected;
 	protected GEAnchors anchorList;
-	GEConstants.EAnchors selectedAnchor;
+	protected EAnchors selectedAnchor;
+	
+	protected AffineTransform affineTransform;
 	
 	public GEShapes(Shape shape){
 		this.mShapes=shape;
+		affineTransform=new AffineTransform();
 		anchorList=null;
 		selected=false;
 	}
@@ -41,13 +45,6 @@ public abstract class GEShapes {
 			anchorList=null;
 		}
 	}
-	public boolean isSelected(){
-		return selected;
-	}
-
-	public Shape getShape(){
-		return mShapes;
-	}
 	public boolean onShape(Point p) {
 		// TODO Auto-generated method stub
 		if(anchorList!=null){
@@ -58,6 +55,14 @@ public abstract class GEShapes {
 		return mShapes.intersects(new Rectangle(p.x,p.y,2,2));
 	}
 	
+	public boolean isSelected(){
+		return selected;
+	}
+
+	public Shape getShape(){
+		return mShapes;
+	}
+
 	public EAnchors onAnchor(Point p){
 		if(selectedAnchor!=null){
 			this.selectedAnchor=anchorList.onAnchors(p);
@@ -67,6 +72,11 @@ public abstract class GEShapes {
 			return null;
 		}
 		
+	}
+	
+	public void moveCoordinate(Point moveP){
+		affineTransform.setToTranslation(moveP.getX(), moveP.getY());
+		mShapes=affineTransform.createTransformedShape(mShapes);
 	}
 	
 }

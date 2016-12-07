@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Currency;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -16,12 +17,15 @@ import constants.GEConstants;
 import constants.GEConstants.EAnchors;
 import shapes.GEPolygon;
 import shapes.GEShapes;
+import transformer.GEDrawer;
+import transformer.GEMover;
+import transformer.GETransformer;
 
 
 public class GEDrawingPanel extends JPanel {
 
 	static private enum EState{
-		idle, drawing,Polygon;
+		idle, drawing,Polygon,Moving;
 	}
 	static private enum EAnchorState{
 		idle, onAnchor;
@@ -33,6 +37,7 @@ public class GEDrawingPanel extends JPanel {
 	private ArrayList<GEShapes> mShapelists;
 	private EState eState;
 	private EAnchorState eAnchorState;
+	private GETransformer mTransfomer;
 	//associative attributes
 
 	public GEDrawingPanel(){
@@ -61,29 +66,17 @@ public class GEDrawingPanel extends JPanel {
 			shape.draw(g2D);
 		}
 	}
+	
+	private void initDrawing(Point startP){
+		mShapes=mShapes.clone();
+		mTransfomer=new GEDrawer(mShapes);
+		((GEDrawer)mTransfomer).init(startP);
+	}
+
 	private void continueDrawing(Point p){
 		((GEPolygon)mShapes).continueDrawing(p);
 	}
 	
-	private void initDrawing(Point point){
-		mShapes=mShapes.clone();
-		mShapes.initPosition(point);
-	}
-	
-	private void keepDrawing(Point point){
-		Graphics2D g2D=(Graphics2D) getGraphics();
-		g2D.setXORMode(getBackground());
-		g2D.draw(mShapes.getShape());
-		mShapes.setShapeCreate(point);
-		g2D.draw(mShapes.getShape());
-		
-	}
-
-	private void finishDrawing(GEShapes shape){
-		mShapelists.add(shape);
-		eState=EState.idle;
-		repaint();	
-	}
 	
 	private GEShapes onShape(Point p){
 		for(int i=mShapelists.size();i>0;i--){
@@ -95,6 +88,12 @@ public class GEDrawingPanel extends JPanel {
 		}
 		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		return null;
+	}
+	
+	private void clearSelectedShapes(){
+		for(GEShapes shape:mShapelists){
+			shape.setSelected(false);
+		}
 	}
 	private void changeCursor(Point p, EAnchors eAnchors) {
 		for (@SuppressWarnings("unused") GEShapes shape: this.mShapelists) {
@@ -119,17 +118,14 @@ public class GEDrawingPanel extends JPanel {
 				setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
 						new ImageIcon("Image/custom.png").getImage(),
 						new Point(0,0),"custom cursor"));
+				break;
 			default:
 				break;
 			}
 		}
 	}
 	
-	private void clearSelectedShapes(){
-		for(GEShapes shape:mShapelists){
-			shape.setSelected(false);
-		}
-	}
+
 	
 	class MouseHandler
 		implements MouseInputListener, MouseMotionListener{
@@ -140,8 +136,10 @@ public class GEDrawingPanel extends JPanel {
 					if(e.getClickCount() == 1 ){
 						continueDrawing(e.getPoint());
 					}else if(e.getClickCount() == 2){
-						finishDrawing(mShapes);
-						repaint();
+						System.out.println("dd");
+						((GEDrawer)mTransfomer).finalize(mShapelists);
+						eState=EState.idle;
+						//repaint();
 					}
 				}
 			}
@@ -164,7 +162,7 @@ public class GEDrawingPanel extends JPanel {
 						eState=EState.drawing;
 					}
 				}
-				if(eAnchorState==EAnchorState.idle){
+				else{
 					selectedShape=onShape(e.getPoint());
 					if(selectedShape!=null){
 						clearSelectedShapes();
@@ -176,34 +174,23 @@ public class GEDrawingPanel extends JPanel {
 		public void mouseReleased(MouseEvent e) {
 			
 			if(eState == EState.drawing){
-				finishDrawing(mShapes);
+				((GEDrawer)mTransfomer).finalize(mShapelists);
+				eState=EState.idle;
+			}else if(eState==EState.Polygon){
+				return;
 			}
+			repaint();
 		}
 		public void mouseDragged(MouseEvent e) {
 			if(eState!=EState.idle){
-				keepDrawing(e.getPoint());
+				mTransfomer.transfomer((Graphics2D)getGraphics(), e.getPoint());
 			}
 		}
 		public void mouseMoved(MouseEvent e) {
-			if(eState == EState.Polygon){
-				keepDrawing(e.getPoint());
-			}else if(eState==EState.idle){
-				GEShapes shape=onShape(e.getPoint());
-				if(shape==null){
-					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-				}
-				else{
-					if(shape.isSelected()){
-						GEConstants.EAnchors anchorType=shape.onAnchor(e.getPoint());
-						changeCursor(e.getPoint(), anchorType);
-					}
-					
-				}
+			if(eState==EState.Polygon){
+				mTransfomer.transfomer((Graphics2D)getGraphics(), e.getPoint());
 			}
-			
-			
-	
-			
+				
 		}	
 	}
 }

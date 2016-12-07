@@ -28,6 +28,9 @@ public class GEPolygon extends GEShapes {
 		// TODO Auto-generated method stub
 		((Polygon)mShapes).xpoints[((Polygon)mShapes).npoints-1] = point.x;
 		((Polygon)mShapes).ypoints[((Polygon)mShapes).npoints-1] = point.y;
+		if(anchorList!=null){
+			anchorList.computeCoordinates(mShapes.getBounds());
+		}
 	}
 
 }

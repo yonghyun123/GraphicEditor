@@ -55,10 +55,12 @@ public class GEConstants {
 	}
 	
 	public enum toolbarButtons{
+		select("Image/select.gif", "Image/selectSLT.gif",null),
 		rectangle("Image/rectangle.gif", "Image/rectangleSLT.gif", new GERectangle()),
 		ellipse("Image/ellipse.gif", "Image/ellipseSLT.gif", new GEEllipse()),
 		line("Image/line.gif", "Image/lineSLT.gif", new GELine()),
 		polygon("Image/polygon.gif", "Image/polygonSLT.gif", new GEPolygon());
+		
 		
 		
 		private String mbuttonImage, mSelectedbuttonImage;
