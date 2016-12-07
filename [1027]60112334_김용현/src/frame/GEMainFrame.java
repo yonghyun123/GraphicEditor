@@ -1,6 +1,6 @@
 package frame;
 import java.awt.BorderLayout;
-
+import java.awt.Color;
 
 import javax.swing.JFrame;
 
@@ -19,6 +19,8 @@ public class GEMainFrame extends JFrame {
 		this.setTitle("GraphicEditor");
 		this.setSize(400, 600);
 		this.setLayout(new BorderLayout());
+
+
 		//component creation & registration
 		menuBar = new GEMenuBar();
 		this.setJMenuBar(menuBar);
@@ -36,10 +38,12 @@ public class GEMainFrame extends JFrame {
 	public void init(){
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//설명적인 상수
+		this.getContentPane().setBackground(Color.black);
 		//set association among components
 		toolBar.setDrawingPanel(drawingPanel);
-		menuBar.initialize();
+		menuBar.initialize(drawingPanel);
 		toolBar.initialize();
 		drawingPanel.initialize();
+		
 ;	}
 }

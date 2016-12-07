@@ -1,4 +1,5 @@
 package frame;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -39,9 +40,11 @@ public class GEDrawingPanel extends JPanel {
 	private EAnchorState eAnchorState;
 	private GETransformer mTransfomer;
 	//associative attributes
-
+	private Color mLineColor;
+	private Color mFillColor;
 	public GEDrawingPanel(){
 		super();
+		this.setBackground(Color.white);
 		eState=EState.idle;
 		eAnchorState=EAnchorState.idle;
 		mShapelists=new ArrayList<GEShapes>();
@@ -50,15 +53,38 @@ public class GEDrawingPanel extends JPanel {
 		this.addMouseMotionListener(mouseEventHandler);
 	}
 	
+	public void initialize(){
+		mLineColor=Color.BLACK;
+	}
+	//line color at shapes
+	public void setLineColor(Color lineColor){
+		if(selectedSetColor(true,lineColor))
+			return;
+		this.mLineColor=lineColor;
+	}
+	//fill color at shapes
+	public void setFillColor(Color fillColor){
+		if(selectedSetColor(false, fillColor))
+			return;
+		this.mFillColor=fillColor;
+	}
 	
+	private boolean selectedSetColor(boolean flag,Color color){
+		if(selectedShape!=null){
+			if(flag){
+				selectedShape.setLineColor(color);
+			}else{
+				selectedShape.setFillColor(color);
+			}
+			repaint();
+			return true;
+		}
+		return false;
+	}
 	public void setShapeTool(GEShapes shapes){  //eSeletedTool을 이용해 어떤 툴바인지 설정 반드시 static
 		this.mShapes=shapes;
 	}	
 	
-	public void initialize() {
-		// TODO Auto-generated method stub
-		
-	}
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);            
 		Graphics2D g2D = (Graphics2D)g;
@@ -69,6 +95,7 @@ public class GEDrawingPanel extends JPanel {
 	
 	private void initDrawing(Point startP){
 		mShapes=mShapes.clone();
+		mShapes.setLineColor(mLineColor);
 		mTransfomer=new GEDrawer(mShapes);
 		((GEDrawer)mTransfomer).init(startP);
 	}
@@ -139,7 +166,7 @@ public class GEDrawingPanel extends JPanel {
 						System.out.println("dd");
 						((GEDrawer)mTransfomer).finalize(mShapelists);
 						eState=EState.idle;
-						//repaint();
+						repaint();
 					}
 				}
 			}

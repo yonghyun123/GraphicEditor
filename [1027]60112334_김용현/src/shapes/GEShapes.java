@@ -1,12 +1,12 @@
 package shapes;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 
-import constants.GEConstants;
 import constants.GEConstants.EAnchors;
 
 public abstract class GEShapes {
@@ -17,8 +17,15 @@ public abstract class GEShapes {
 	protected GEAnchors anchorList;
 	protected EAnchors selectedAnchor;
 	
-	protected AffineTransform affineTransform;
+	protected Color mLineColor,mFillColor;
 	
+	protected AffineTransform affineTransform;
+	public void setLineColor(Color lineColor){
+		this.mLineColor=lineColor;
+	}
+	public void setFillColor(Color fillColor){
+		this.mFillColor=fillColor;
+	}
 	public GEShapes(Shape shape){
 		this.mShapes=shape;
 		affineTransform=new AffineTransform();
@@ -29,8 +36,18 @@ public abstract class GEShapes {
 	abstract public GEShapes clone();
 	abstract public void setShapeCreate(Point point);
 	
-	public void draw(Graphics2D g2d){
-		g2d.draw(mShapes);
+	public void draw(Graphics2D g2d){ //순서 중요해 그려지고 색이 채워지냐 색이 채워지고 그려지냐 
+									  //clear 시킬때 반대로 돌기 때문에 색넣고 지우면 도형이 없어짐
+		if(this.mFillColor!=null){
+			g2d.setColor(mFillColor);
+			g2d.fill(mShapes);
+		}
+		
+		if(this.mLineColor!=null){
+			g2d.setColor(this.mLineColor);
+			g2d.draw(mShapes);
+		}
+
 		if(selected){
 			anchorList.draw(g2d);
 		}

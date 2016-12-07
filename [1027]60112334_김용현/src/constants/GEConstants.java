@@ -11,11 +11,11 @@ public class GEConstants {
 	public final static int FRAME_Y=100;
 	public final static int FRAME_W=400;
 	public final static int FRAME_H=600;
-	
+	//GEAnchors
 	public enum EAnchors{
 		NN,NE,NW,SS,SW,SE,EE,WW,RR, NONE;
 	}
-	
+	//GEMenuItems
 	public static enum EFileMenuItem{
 		newItem("new"),
 		open("open"), 
@@ -28,13 +28,12 @@ public class GEConstants {
 		private EFileMenuItem(String text){
 			this.text=text;
 		}
-		
 		public String getText(){
 			return this.text;
 		}
-		
 	}
-	public static enum EditFileMenu{
+	//GEMenuItems
+	public static enum EEditMenuItem{
 		Cut("Cut"),
 		Copy("Copy"), 
 		Paste("Paste"),
@@ -45,7 +44,7 @@ public class GEConstants {
 		Ungroup("Ungroup");
 		
 		private String text;
-		private EditFileMenu(String text){
+		private EEditMenuItem(String text){
 			this.text=text;
 		}
 		
@@ -53,7 +52,22 @@ public class GEConstants {
 			return this.text;
 		}
 	}
+	//GEMenuItems
+	public static enum EColorMenuItems{
+		SetLine("SetLine"),
+		ClearLine("ClearLine"),
+		SetFill("SetFill"),
+		ClearFill("ClearFill");
+		private String text;
+		private EColorMenuItems(String text){
+			this.text=text;
+		}
+		public String getText(){
+			return this.text;
+		}
+	}
 	
+	//GEToolbar
 	public enum toolbarButtons{
 		select("Image/select.gif", "Image/selectSLT.gif",null),
 		rectangle("Image/rectangle.gif", "Image/rectangleSLT.gif", new GERectangle()),
@@ -84,4 +98,10 @@ public class GEConstants {
 			return mShape;
 		}
 	}
+	//GEMenuColor
+	public static final String FILLCOLOR="Selected Fill Color";
+	public static final String LINECOLOR="Selected Line Color";
+	//GETransformer
+	public final static int DEFAULT_DASH_OFFSET=4;
+	public final static int DEFAULT_DASHEDLINE_WIDTH=1;
 }
