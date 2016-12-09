@@ -26,7 +26,14 @@ public class GEAnchors extends Vector<Ellipse2D.Double> {
 			mAnchor.add(new Ellipse2D.Double(0, 0, 0, 0));
 		}
 	}
-	
+	public EAnchors getAnchors(Point p){
+		for(Ellipse2D ellipse: mAnchor){
+			if(ellipse.contains(new Point(p))){
+				return EAnchors.values()[mAnchor.indexOf(ellipse)];
+			}
+		}
+		return EAnchors.NONE;
+	}
 	public EAnchors onAnchors(Point p){
 		for(Ellipse2D ellipse: mAnchor){
 			if(ellipse.contains(new Point(p))){
@@ -35,7 +42,9 @@ public class GEAnchors extends Vector<Ellipse2D.Double> {
 		}
 		return EAnchors.NONE;
 	}
-	
+	public Rectangle getBounds(EAnchors eAnchorType) { 
+		return mAnchor.get(eAnchorType.ordinal()).getBounds();	
+	}
 	public void computeCoordinates(Rectangle boundingRect){
 		int x=boundingRect.x;
 		int y=boundingRect.y;

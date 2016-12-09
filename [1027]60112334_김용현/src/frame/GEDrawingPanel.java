@@ -16,17 +16,20 @@ import javax.swing.event.MouseInputListener;
 
 import constants.GEConstants;
 import constants.GEConstants.EAnchors;
+import manager.GECursor;
 import shapes.GEPolygon;
+import shapes.GERectangle;
 import shapes.GEShapes;
 import transformer.GEDrawer;
 import transformer.GEMover;
+import transformer.GEResizer;
 import transformer.GETransformer;
 
 
 public class GEDrawingPanel extends JPanel {
 
 	static private enum EState{
-		idle, drawing,Polygon,Moving;
+		idle, drawing,Polygon,Moving,Resizing;
 	}
 	static private enum EAnchorState{
 		idle, onAnchor;
@@ -42,6 +45,8 @@ public class GEDrawingPanel extends JPanel {
 	//associative attributes
 	private Color mLineColor;
 	private Color mFillColor;
+	//cursor handler
+	private GECursor mCursor;
 	
 	public GEDrawingPanel(){
 		super();
@@ -49,6 +54,7 @@ public class GEDrawingPanel extends JPanel {
 		mLineColor=Color.black;
 		mFillColor=Color.black;
 		eState=EState.idle;
+		mCursor=new GECursor();
 		eAnchorState=EAnchorState.idle;
 		mShapelists=new ArrayList<GEShapes>();
 		MouseHandler mouseEventHandler=new MouseHandler();
@@ -84,6 +90,9 @@ public class GEDrawingPanel extends JPanel {
 		}
 		return false;
 	}
+	public void setCurrentState(EState currentState){
+		this.eState=currentState;
+	}
 	public void setShapeTool(GEShapes shapes){  //eSeletedTool을 이용해 어떤 툴바인지 설정 반드시 static
 		this.mShapes=shapes;
 	}	
@@ -111,11 +120,9 @@ public class GEDrawingPanel extends JPanel {
 		for(int i=mShapelists.size();i>0;i--){
 			GEShapes shape=mShapelists.get(i-1);
 			if(shape.onShape(p)){
-				setCursor(new Cursor(Cursor.HAND_CURSOR));
 				return shape;
 			}
 		}
-		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		return null;
 	}
 	
@@ -163,7 +170,7 @@ public class GEDrawingPanel extends JPanel {
 					if(e.getClickCount() == 1 ){
 						continueDrawing(e.getPoint());
 					}else if(e.getClickCount() == 2){
-						System.out.println("dd");
+	
 						((GEDrawer)mTransfomer).finalize(mShapelists);
 						eState=EState.idle;
 						repaint();
@@ -199,10 +206,18 @@ public class GEDrawingPanel extends JPanel {
 					if(mSelectedShape!=null){
 						clearSelectedShapes();
 						mSelectedShape.setSelected(true);
-						
-						mTransfomer=new GEMover(mSelectedShape);
-						eState=EState.Moving;
-						((GEMover)mTransfomer).init(e.getPoint());
+						mSelectedShape.onAnchor(e.getPoint());
+						if(mSelectedShape.getSelectedAnchor()==EAnchors.NONE){
+							mTransfomer=new GEMover(mSelectedShape);
+							eState=EState.Moving;
+							((GEMover)mTransfomer).init(e.getPoint());
+						}
+						else{
+							mTransfomer=new GEResizer(mSelectedShape);
+							((GEResizer)mTransfomer).init(e.getPoint());
+							setCurrentState(EState.Resizing);
+						}
+				
 					}
 				}
 			}
@@ -214,6 +229,8 @@ public class GEDrawingPanel extends JPanel {
 				
 			}else if(eState==EState.Polygon){
 				return;
+			}else if(eState==EState.Resizing){
+				((GEResizer)mTransfomer).finalize(e.getPoint());
 			}
 			eState=EState.idle;
 			repaint();
@@ -227,8 +244,19 @@ public class GEDrawingPanel extends JPanel {
 		public void mouseMoved(MouseEvent e) {
 			if(eState==EState.Polygon){
 				((GEDrawer)mTransfomer).transfomer((Graphics2D)getGraphics(), e.getPoint());
+			}else if(eState==EState.idle){
+				GEShapes shape=onShape(e.getPoint());
+				if(shape==null){
+					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				}else{
+					if(shape.isSelected()){
+						EAnchors anchorType=shape.onAnchor(e.getPoint());
+						setCursor(mCursor.get(anchorType.ordinal()));
+					}
+				}
 			}
-				
+			
 		}	
+		
 	}
 }

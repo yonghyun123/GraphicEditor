@@ -13,7 +13,7 @@ public class GEConstants {
 	public final static int FRAME_H=600;
 	//GEAnchors
 	public enum EAnchors{
-		NN,NE,NW,SS,SW,SE,EE,WW,RR, NONE;
+		NW,NN,NE,WW,EE,SW,SS,SE,RR, NONE;
 	}
 	//GEMenuItems
 	public static enum EFileMenuItem{

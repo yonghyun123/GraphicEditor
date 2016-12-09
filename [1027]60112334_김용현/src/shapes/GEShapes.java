@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 
 import constants.GEConstants.EAnchors;
 
@@ -35,30 +36,22 @@ public abstract class GEShapes {
 	abstract public void initPosition(Point start);
 	abstract public GEShapes clone();
 	abstract public void setShapeCreate(Point point);
-	
-	public void draw(Graphics2D g2d){ //순서 중요해 그려지고 색이 채워지냐 색이 채워지고 그려지냐 
-									  //clear 시킬때 반대로 돌기 때문에 색넣고 지우면 도형이 없어짐
-		if(this.mFillColor!=null){
-			g2d.setColor(mFillColor);
-			g2d.fill(mShapes);
-		}
-		
-		if(this.mLineColor!=null){
-			g2d.setColor(this.mLineColor);
-			g2d.draw(mShapes);
-		}
 
-		if(selected){
-			//anchors 위치까지 다시 잡아주고 그려줘야해
-			getAnchors().computeCoordinates(mShapes.getBounds()); 
-			anchorList.draw(g2d);
-		}
-	}
-	
-	public GEAnchors getAnchors(){
+	public GEAnchors getAnchorList(){
 		return anchorList;
 	}
-	
+	public EAnchors getSelectedAnchor(){
+		return selectedAnchor;
+	}
+	public Rectangle getBounds(){
+		return mShapes.getBounds();
+	}
+	public Shape getShape(){
+		return mShapes;
+	}
+	public boolean isSelected(){
+		return selected;
+	}
 	public void setSelected(boolean selected){
 		this.selected=selected;
 		if(selected){
@@ -78,28 +71,45 @@ public abstract class GEShapes {
 		return mShapes.intersects(new Rectangle(p.x,p.y,2,2));
 	}
 	
-	public boolean isSelected(){
-		return selected;
-	}
-
-	public Shape getShape(){
-		return mShapes;
-	}
-
 	public EAnchors onAnchor(Point p){
-		if(selectedAnchor!=null){
-			this.selectedAnchor=anchorList.onAnchors(p);
-			return selectedAnchor;
-		}
-		else{
-			return null;
+		this.selectedAnchor=anchorList.onAnchors(p);
+		return selectedAnchor;
+	}
+	//순서 중요해 그려지고 색이 채워지냐 색이 채워지고 그려지냐 
+	  //clear 시킬때 반대로 돌기 때문에 색넣고 지우면 도형이 없어짐
+	public void draw(Graphics2D g2d){ 
+		if(this.mFillColor!=null){
+			g2d.setColor(mFillColor);
+			g2d.fill(mShapes);
 		}
 		
+		if(this.mLineColor!=null){
+			g2d.setColor(this.mLineColor);
+			g2d.draw(mShapes);
+		}
+
+		if(selected){
+			//anchors 위치까지 다시 잡아주고 그려줘야해
+			getAnchorList().computeCoordinates(mShapes.getBounds()); 
+			anchorList.draw(g2d);
+		}
 	}
-	
 	public void moveCoordinate(Point moveP){
 		affineTransform.setToTranslation(moveP.getX(), moveP.getY());
 		mShapes=affineTransform.createTransformedShape(mShapes);
+	}
+	public void resizeCoordinate(Point2D resizeFactor){
+		affineTransform.setToScale(resizeFactor.getX(), resizeFactor.getY());
+		System.out.println("x,y"+resizeFactor.getX()+","+resizeFactor.getY());
+		mShapes=(affineTransform.createTransformedShape(mShapes));
+	}
+	public void moveReverse(Point2D resizeAnchor){
+		affineTransform.setToTranslation(-resizeAnchor.getX(), -resizeAnchor.getY());
+		mShapes=(affineTransform.createTransformedShape(mShapes));
+	}
+	public void move(Point2D resizeAnchor){
+		affineTransform.setToTranslation(resizeAnchor.getX(), resizeAnchor.getY());
+		mShapes=(affineTransform.createTransformedShape(mShapes));
 	}
 	
 }
