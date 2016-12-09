@@ -24,6 +24,7 @@ public class GEDrawer extends GETransformer{
 	@Override
 	public void transfomer(Graphics2D g2D, Point p) {
 		// TODO Auto-generated method stub
+	
 		g2D.setXORMode(Color.white);
 		mShapes.draw(g2D);
 		mShapes.setShapeCreate(p);

@@ -34,7 +34,7 @@ public class GEDrawingPanel extends JPanel {
 	//attribute
 	private static final long serialVersionUID = 1L;
 	//working variables
-	private GEShapes mShapes, selectedShape;
+	private GEShapes mShapes, mSelectedShape;
 	private ArrayList<GEShapes> mShapelists;
 	private EState eState;
 	private EAnchorState eAnchorState;
@@ -42,9 +42,12 @@ public class GEDrawingPanel extends JPanel {
 	//associative attributes
 	private Color mLineColor;
 	private Color mFillColor;
+	
 	public GEDrawingPanel(){
 		super();
 		this.setBackground(Color.white);
+		mLineColor=Color.black;
+		mFillColor=Color.black;
 		eState=EState.idle;
 		eAnchorState=EAnchorState.idle;
 		mShapelists=new ArrayList<GEShapes>();
@@ -54,7 +57,7 @@ public class GEDrawingPanel extends JPanel {
 	}
 	
 	public void initialize(){
-		mLineColor=Color.BLACK;
+//		mLineColor=Color.BLACK;
 	}
 	//line color at shapes
 	public void setLineColor(Color lineColor){
@@ -68,13 +71,13 @@ public class GEDrawingPanel extends JPanel {
 			return;
 		this.mFillColor=fillColor;
 	}
-	
+	//which setColor(Line,Fill) is selected and color setting
 	private boolean selectedSetColor(boolean flag,Color color){
-		if(selectedShape!=null){
+		if(mSelectedShape!=null){
 			if(flag){
-				selectedShape.setLineColor(color);
+				mSelectedShape.setLineColor(color);
 			}else{
-				selectedShape.setFillColor(color);
+				mSelectedShape.setFillColor(color);
 			}
 			repaint();
 			return true;
@@ -97,7 +100,6 @@ public class GEDrawingPanel extends JPanel {
 		mShapes=mShapes.clone();
 		mShapes.setLineColor(mLineColor);
 		mTransfomer=new GEDrawer(mShapes);
-		((GEDrawer)mTransfomer).init(startP);
 	}
 
 	private void continueDrawing(Point p){
@@ -152,8 +154,6 @@ public class GEDrawingPanel extends JPanel {
 		}
 	}
 	
-
-	
 	class MouseHandler
 		implements MouseInputListener, MouseMotionListener{
 		
@@ -179,9 +179,14 @@ public class GEDrawingPanel extends JPanel {
 		}
 		public void mousePressed(MouseEvent e) {
 			if(eState == EState.idle){
+			
 				if(mShapes!=null){
 					clearSelectedShapes();
+					mSelectedShape=null;
 					initDrawing(e.getPoint());
+					mTransfomer=new GEDrawer(mShapes);
+					
+					((GEDrawer)mTransfomer).init(e.getPoint());
 					if(mShapes instanceof GEPolygon){
 						eState = EState.Polygon;
 					}
@@ -190,10 +195,14 @@ public class GEDrawingPanel extends JPanel {
 					}
 				}
 				else{
-					selectedShape=onShape(e.getPoint());
-					if(selectedShape!=null){
+					mSelectedShape=onShape(e.getPoint());
+					if(mSelectedShape!=null){
 						clearSelectedShapes();
-						selectedShape.setSelected(true);
+						mSelectedShape.setSelected(true);
+						
+						mTransfomer=new GEMover(mSelectedShape);
+						eState=EState.Moving;
+						((GEMover)mTransfomer).init(e.getPoint());
 					}
 				}
 			}
@@ -202,20 +211,22 @@ public class GEDrawingPanel extends JPanel {
 			
 			if(eState == EState.drawing){
 				((GEDrawer)mTransfomer).finalize(mShapelists);
-				eState=EState.idle;
+				
 			}else if(eState==EState.Polygon){
 				return;
 			}
+			eState=EState.idle;
 			repaint();
 		}
 		public void mouseDragged(MouseEvent e) {
 			if(eState!=EState.idle){
+				
 				mTransfomer.transfomer((Graphics2D)getGraphics(), e.getPoint());
 			}
 		}
 		public void mouseMoved(MouseEvent e) {
 			if(eState==EState.Polygon){
-				mTransfomer.transfomer((Graphics2D)getGraphics(), e.getPoint());
+				((GEDrawer)mTransfomer).transfomer((Graphics2D)getGraphics(), e.getPoint());
 			}
 				
 		}	

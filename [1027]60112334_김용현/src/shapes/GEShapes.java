@@ -49,8 +49,14 @@ public abstract class GEShapes {
 		}
 
 		if(selected){
+			//anchors 위치까지 다시 잡아주고 그려줘야해
+			getAnchors().computeCoordinates(mShapes.getBounds()); 
 			anchorList.draw(g2d);
 		}
+	}
+	
+	public GEAnchors getAnchors(){
+		return anchorList;
 	}
 	
 	public void setSelected(boolean selected){
