@@ -9,6 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import constants.GEConstants.EAnchors;
+import manager.GEAnchors;
 
 public abstract class GEShapes {
 	protected Shape mShapes;
@@ -27,6 +28,12 @@ public abstract class GEShapes {
 	public void setFillColor(Color fillColor){
 		this.mFillColor=fillColor;
 	}
+	public Color getLineColor(){
+		return mLineColor;
+	}
+	public Color getFillColor(){
+		return mFillColor;
+	}
 	public GEShapes(Shape shape){
 		this.mShapes=shape;
 		affineTransform=new AffineTransform();
@@ -36,6 +43,7 @@ public abstract class GEShapes {
 	abstract public void initPosition(Point start);
 	abstract public GEShapes clone();
 	abstract public void setShapeCreate(Point point);
+	abstract public GEShapes deepCopy();
 
 	public GEAnchors getAnchorList(){
 		return anchorList;
@@ -49,8 +57,22 @@ public abstract class GEShapes {
 	public Shape getShape(){
 		return mShapes;
 	}
+	public void setShape(Shape shape){
+		mShapes=shape;
+	}
 	public boolean isSelected(){
 		return selected;
+	}
+	public void setAnchorList(GEAnchors anchorList){
+		this.anchorList = anchorList;
+	}
+	public void setGraphicsAttributes(GEShapes shape){
+		setLineColor(shape.getLineColor());
+		setFillColor(shape.getFillColor());
+		setAnchorList(shape.getAnchorList());
+		setAnchorList(shape.getAnchorList());
+		setSelected(shape.isSelected());
+		
 	}
 	public void setSelected(boolean selected){
 		this.selected=selected;

@@ -2,6 +2,8 @@ package shapes;
 
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 
 
 public class GEPolygon extends GEShapes {
@@ -31,6 +33,15 @@ public class GEPolygon extends GEShapes {
 		if(anchorList!=null){
 			anchorList.computeCoordinates(mShapes.getBounds());
 		}
+	}
+	@Override
+	public GEShapes deepCopy() {
+		AffineTransform affineTansform=new AffineTransform();
+		Shape temp=affineTansform.createTransformedShape(mShapes);
+		GEPolygon shape=new GEPolygon();
+		shape.setShape(temp);
+		shape.setGraphicsAttributes(this);
+		return shape;
 	}
 
 }

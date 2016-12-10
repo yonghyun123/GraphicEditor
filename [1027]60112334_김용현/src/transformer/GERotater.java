@@ -5,7 +5,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import manager.GEGroup;
+import shapes.GEGroup;
 import shapes.GEShapes;
 
 public class GERotater extends GETransformer{

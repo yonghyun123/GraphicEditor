@@ -13,7 +13,8 @@ import javax.swing.event.MouseInputListener;
 
 import constants.GEConstants.EAnchors;
 import manager.GECursor;
-import manager.GEGroup;
+import manager.GEStorage;
+import shapes.GEGroup;
 import shapes.GEPolygon;
 import shapes.GESelect;
 import shapes.GEShapes;
@@ -42,7 +43,8 @@ public class GEDrawingPanel extends JPanel {
 	private Color mFillColor;
 	//cursor handler
 	private GECursor mCursor;
-	
+	//component
+	private GEStorage mStorage;
 	public GEDrawingPanel(){
 		super();
 		this.setBackground(Color.white);
@@ -50,6 +52,7 @@ public class GEDrawingPanel extends JPanel {
 		mFillColor=Color.WHITE;
 		eState=EState.idle;
 		mCursor=new GECursor();
+		mStorage=new GEStorage();
 		mShapelists=new ArrayList<GEShapes>();
 		MouseHandler mouseEventHandler=new MouseHandler();
 		this.addMouseListener(mouseEventHandler);
@@ -87,6 +90,7 @@ public class GEDrawingPanel extends JPanel {
 		repaint();
 		return returnValue;
 	}
+	//edit menu items
 	public void group(GEGroup group){
 		boolean check=false;
 		for(int i=mShapelists.size();i>0;i--){
@@ -121,6 +125,34 @@ public class GEDrawingPanel extends JPanel {
 		mShapelists.addAll(tempList);
 		repaint();
 	}
+	//paste
+	public void paste(){
+		for(GEShapes shape:mStorage.paste()){
+			mShapelists.add(shape.deepCopy());
+		}
+		repaint();
+	}
+	//copy
+	public void copy(){
+		mStorage.copy(mShapelists);
+	}
+	//cut
+	public void cut(){
+		mStorage.cut(mShapelists);
+		repaint();
+	}
+	//delete
+	public void delete(){
+		for(int i=mShapelists.size();i>0;i--){
+			GEShapes shape=mShapelists.get(i-1);
+			if(shape.isSelected()){
+				shape.setSelected(false);
+				mShapelists.remove(shape);
+			}
+		}
+		repaint();
+	}
+	
 	public void setCurrentState(EState currentState){
 		this.eState=currentState;
 	}

@@ -7,8 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import constants.GEConstants.EAnchors;
-
-import shapes.GEAnchors;
+import manager.GEAnchors;
 import shapes.GEShapes;
 
 

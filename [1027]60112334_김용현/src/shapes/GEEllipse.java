@@ -1,6 +1,8 @@
 package shapes;
 
 import java.awt.Point;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
 
@@ -28,6 +30,15 @@ public class GEEllipse extends GEShapes {
 			anchorList.computeCoordinates(mShapes.getBounds());
 		}
 		
+	}
+	@Override
+	public GEShapes deepCopy() {
+		AffineTransform affineTansform=new AffineTransform();
+		Shape temp=affineTansform.createTransformedShape(mShapes);
+		GEEllipse shape=new GEEllipse();
+		shape.setShape(temp);
+		shape.setGraphicsAttributes(this);
+		return shape;
 	}
 
 }

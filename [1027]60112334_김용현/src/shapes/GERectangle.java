@@ -2,6 +2,9 @@ package shapes;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+
 
 public class GERectangle extends GEShapes {
 
@@ -26,6 +29,16 @@ public class GERectangle extends GEShapes {
 	@Override
 	public void initPosition(Point start) {
 		startPoint=start;
+	}
+
+	@Override
+	public GEShapes deepCopy() {
+		AffineTransform affineTansform=new AffineTransform();
+		Shape temp=affineTansform.createTransformedShape(mShapes);
+		GERectangle shape=new GERectangle();
+		shape.setShape(temp);
+		shape.setGraphicsAttributes(this);
+		return shape;
 	}
 
 }

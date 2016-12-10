@@ -7,7 +7,7 @@ import javax.swing.JMenuItem;
 
 import constants.GEConstants.EEditMenuItem;
 import frame.GEDrawingPanel;
-import manager.GEGroup;
+import shapes.GEGroup;
 
 
 public class GEEditMenu extends JMenu {
@@ -20,7 +20,7 @@ public class GEEditMenu extends JMenu {
 	private static final long serialVersionUID = 1L;
 
 	public GEEditMenu(){
-		super("Edit");  //JMenu¿¡ ÀÌ¸§À» ºÙÀÎ´Ù.
+		super("Edit");  //JMenuï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 		editMenuHandler= new EditMenuHandler();
 		for(EEditMenuItem text: EEditMenuItem.values()){
 			JMenuItem item=new JMenuItem(text.getText());
@@ -39,6 +39,19 @@ public class GEEditMenu extends JMenu {
 	public void group(){
 		mDrawingPanel.group(new GEGroup());
 	}
+	public void copy(){
+		mDrawingPanel.copy();
+	}
+	public void cut(){
+		mDrawingPanel.cut();
+	}
+	public void delete(){
+		mDrawingPanel.delete();
+	}
+	public void paste(){
+		mDrawingPanel.paste();
+	}
+	
 	private class EditMenuHandler implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			System.out.println(e.getActionCommand().toString());
@@ -46,13 +59,16 @@ public class GEEditMenu extends JMenu {
 				group();
 			}
 			else if(e.getActionCommand().equals(EEditMenuItem.Copy.getText())){
-				//group();
+				copy();
 			}
 			else if(e.getActionCommand().equals(EEditMenuItem.Cut.getText())){
-				//group();
+				cut();
 			}
 			else if(e.getActionCommand().equals(EEditMenuItem.Delete.getText())){
-				//group();
+				delete();
+			}
+			else if(e.getActionCommand().equals(EEditMenuItem.Paste.getText())){
+				paste();
 			}
 			else if(e.getActionCommand().equals(EEditMenuItem.Ungroup.getText())){
 				unGroup();

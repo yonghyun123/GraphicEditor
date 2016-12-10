@@ -1,4 +1,4 @@
-package manager;
+package shapes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -10,8 +10,7 @@ import java.util.ArrayList;
 
 import constants.GEConstants;
 import constants.GEConstants.EAnchors;
-import shapes.GEAnchors;
-import shapes.GEShapes;
+import manager.GEAnchors;
 
 public class GEGroup extends GEShapes{
 	private ArrayList<GEShapes> mShapeList;
@@ -132,6 +131,15 @@ public class GEGroup extends GEShapes{
 		for(GEShapes shape:mShapeList){
 			shape.move(resizeAnchor);
 		}
+	}
+
+	@Override
+	public GEShapes deepCopy() {
+		GEGroup returnShape = new GEGroup();
+		for(GEShapes shape :mShapeList){
+			returnShape.addShape(shape.deepCopy());
+		}
+		return returnShape;
 	}
 	
 }

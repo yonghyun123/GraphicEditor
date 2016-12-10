@@ -2,6 +2,8 @@ package shapes;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 
 public class GELine extends GEShapes {
@@ -35,6 +37,15 @@ public class GELine extends GEShapes {
 		tempRect.setFrameFromDiagonal(tempLine.getP1(), tempLine.getP2());
 		return tempRect.contains(point);	
 		
+	}
+	@Override
+	public GEShapes deepCopy() {
+		AffineTransform affineTansform=new AffineTransform();
+		Shape temp=affineTansform.createTransformedShape(mShapes);
+		GELine shape=new GELine();
+		shape.setShape(temp);
+		shape.setGraphicsAttributes(this);
+		return shape;
 	}
 
 }

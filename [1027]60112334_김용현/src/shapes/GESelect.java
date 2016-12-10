@@ -29,4 +29,10 @@ public class GESelect extends GEShapes{
 		tempRect.setFrameFromDiagonal(startPoint.x, startPoint.y, point.x,point.y);
 	}
 
+	@Override
+	public GEShapes deepCopy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
