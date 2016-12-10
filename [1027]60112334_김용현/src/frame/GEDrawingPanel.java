@@ -21,13 +21,14 @@ import transformer.GEDrawer;
 import transformer.GEGrouper;
 import transformer.GEMover;
 import transformer.GEResizer;
+import transformer.GERotater;
 import transformer.GETransformer;
 
 
 public class GEDrawingPanel extends JPanel {
 
 	static private enum EState{
-		idle, drawing,Polygon,Moving,Resizing,Selecting;
+		idle, drawing,Polygon,Moving,Resizing,Selecting,Rotating;
 	}
 	//attribute
 	private static final long serialVersionUID = 1L;
@@ -199,6 +200,10 @@ public class GEDrawingPanel extends JPanel {
 							mTransfomer=new GEMover(mSelectedShape);
 							((GEMover)mTransfomer).init(e.getPoint());
 							eState=EState.Moving;
+						}else if(mSelectedShape.getSelectedAnchor()==EAnchors.RR){
+							mTransfomer=new GERotater(mSelectedShape);
+							((GERotater)mTransfomer).init(e.getPoint());
+							eState=EState.Rotating;
 						}
 						else{
 							mTransfomer=new GEResizer(mSelectedShape);
@@ -238,6 +243,8 @@ public class GEDrawingPanel extends JPanel {
 				((GEResizer)mTransfomer).finalize(e.getPoint());
 			}else if(eState==EState.Selecting){
 				((GEGrouper)mTransfomer).finalize(mShapelists);
+			}else if(eState==EState.Rotating){
+				((GERotater)mTransfomer).finalize(mShapelists);
 			}
 			eState=EState.idle;
 			repaint();

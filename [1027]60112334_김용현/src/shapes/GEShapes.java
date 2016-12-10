@@ -111,5 +111,9 @@ public abstract class GEShapes {
 		affineTransform.setToTranslation(resizeAnchor.getX(), resizeAnchor.getY());
 		mShapes=(affineTransform.createTransformedShape(mShapes));
 	}
+	public void rotaterCoordinate(double theta, Point2D rotaterAnchor){
+		affineTransform.setToRotation(theta, rotaterAnchor.getX(), rotaterAnchor.getY() );
+		mShapes = (affineTransform.createTransformedShape(mShapes));
+	}
 	
 }
