@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -15,6 +16,7 @@ import javax.swing.event.MouseInputListener;
 
 import constants.GEConstants.EAnchors;
 import manager.GECursor;
+import manager.GEModel;
 import manager.GEStorage;
 import shapes.GEGroup;
 import shapes.GEPolygon;
@@ -92,7 +94,37 @@ public class GEDrawingPanel extends JPanel {
 		repaint();
 		return returnValue;
 	}
-	//edit menu items
+	//---------------------------------file menu items
+	public void newPanel(){
+		mShapelists.removeAll(mShapelists);
+		repaint();
+	}
+	//saving panel
+	public void saveShapes(String fileName){
+		try {
+			GEModel.save(fileName, mShapelists);
+			//updated = false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	//reading panel
+	public void readShape(String fileName){
+			try {
+				this.mShapelists = (ArrayList<GEShapes>) GEModel.read(fileName);
+				//updated = false;
+				this.repaint();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			};
+		
+	}
+	//------------------------------------edit menu items
 	public void group(GEGroup group){
 		boolean check=false;
 		for(int i=mShapelists.size();i>0;i--){

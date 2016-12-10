@@ -20,10 +20,9 @@ public class GEConstants {
 	public static enum EFileMenuItem{
 		newItem("new"),
 		open("open"), 
-		close("close"),
 		save("save"),
 		saveAs("saveAs"),
-		exit("exit");
+		close("close");
 		
 		private String text;
 		private EFileMenuItem(String text){
