@@ -2,7 +2,6 @@ package shapes;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.image.renderable.RenderContext;
 
 public class GESelect extends GEShapes{
 

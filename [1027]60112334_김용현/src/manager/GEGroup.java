@@ -121,7 +121,12 @@ public class GEGroup extends GEShapes{
 			shape.resizeCoordinate(resizeFactor);
 		}
 	}
-	
+	public void moveReverse(Point2D resizeAnchor){
+		super.moveReverse(resizeAnchor);
+		for(GEShapes shape:mShapeList){
+			shape.moveReverse(resizeAnchor);
+		}
+	}
 	public void move(Point2D resizeAnchor){
 		super.move(resizeAnchor);
 		for(GEShapes shape:mShapeList){

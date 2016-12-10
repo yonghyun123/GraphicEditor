@@ -75,8 +75,8 @@ public abstract class GEShapes {
 		this.selectedAnchor=anchorList.onAnchors(p);
 		return selectedAnchor;
 	}
-	//¼ø¼­ Áß¿äÇØ ±×·ÁÁö°í »öÀÌ Ã¤¿öÁö³Ä »öÀÌ Ã¤¿öÁö°í ±×·ÁÁö³Ä 
-	  //clear ½ÃÅ³¶§ ¹Ý´ë·Î µ¹±â ¶§¹®¿¡ »ö³Ö°í Áö¿ì¸é µµÇüÀÌ ¾ø¾îÁü
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ß¿ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½ 
+	  //clear ï¿½ï¿½Å³ï¿½ï¿½ ï¿½Ý´ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void draw(Graphics2D g2d){ 
 		if(this.mFillColor!=null){
 			g2d.setColor(mFillColor);
@@ -89,7 +89,7 @@ public abstract class GEShapes {
 		}
 
 		if(selected){
-			//anchors À§Ä¡±îÁö ´Ù½Ã Àâ¾ÆÁÖ°í ±×·ÁÁà¾ßÇØ
+			//anchors ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			anchorList.computeCoordinates(this.getBounds()); 
 			anchorList.draw(g2d);
 		}
@@ -101,7 +101,6 @@ public abstract class GEShapes {
 	}
 	public void resizeCoordinate(Point2D resizeFactor){
 		affineTransform.setToScale(resizeFactor.getX(), resizeFactor.getY());
-		System.out.println("x,y"+resizeFactor.getX()+","+resizeFactor.getY());
 		mShapes=(affineTransform.createTransformedShape(mShapes));
 	}
 	public void moveReverse(Point2D resizeAnchor){

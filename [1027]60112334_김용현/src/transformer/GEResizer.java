@@ -25,6 +25,7 @@ public class GEResizer extends GETransformer{
 	public void init(Point p) {
 		mPrevP=p;
 		mResizeAnchor=getResizeAnchor();
+		System.out.println(mResizeAnchor);
 		mShapes.moveReverse(mResizeAnchor);
 		
 	}
@@ -32,7 +33,7 @@ public class GEResizer extends GETransformer{
 	@Override
 	public void transfomer(Graphics2D g2d, Point p) {
 		g2d.setXORMode(Color.WHITE);
-		//g2d.setStroke();
+		g2d.setStroke(dashedLineStroke);
 		Point2D resizeFactor=computeResizeFactor(mPrevP,p);
 		AffineTransform tempAffine=g2d.getTransform();
 		g2d.translate(mResizeAnchor.getX(), mResizeAnchor.getY());

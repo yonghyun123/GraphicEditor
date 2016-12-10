@@ -3,8 +3,6 @@ package transformer;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.ArrayList;
 
 import constants.GEConstants;
 import shapes.GEShapes;

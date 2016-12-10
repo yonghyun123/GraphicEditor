@@ -29,16 +29,12 @@ public class GEDrawingPanel extends JPanel {
 	static private enum EState{
 		idle, drawing,Polygon,Moving,Resizing,Selecting;
 	}
-	static private enum EAnchorState{
-		idle, onAnchor;
-	}
 	//attribute
 	private static final long serialVersionUID = 1L;
 	//working variables
 	private GEShapes mShapes, mSelectedShape;
 	private ArrayList<GEShapes> mShapelists;
 	private EState eState;
-	private EAnchorState eAnchorState;
 	private GETransformer mTransfomer;
 	//associative attributes
 	private Color mLineColor;
@@ -53,7 +49,6 @@ public class GEDrawingPanel extends JPanel {
 		mFillColor=Color.WHITE;
 		eState=EState.idle;
 		mCursor=new GECursor();
-		eAnchorState=EAnchorState.idle;
 		mShapelists=new ArrayList<GEShapes>();
 		MouseHandler mouseEventHandler=new MouseHandler();
 		this.addMouseListener(mouseEventHandler);
@@ -128,7 +123,7 @@ public class GEDrawingPanel extends JPanel {
 	public void setCurrentState(EState currentState){
 		this.eState=currentState;
 	}
-	public void setShapeTool(GEShapes shapes){  //eSeletedToolÀ» ÀÌ¿ëÇØ ¾î¶² Åø¹ÙÀÎÁö ¼³Á¤ ¹Ýµå½Ã static
+	public void setShapeTool(GEShapes shapes){  //eSeletedToolï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ýµï¿½ï¿½ static
 		this.mShapes=shapes;
 	}	
 	
@@ -186,10 +181,10 @@ public class GEDrawingPanel extends JPanel {
 				}
 			}
 		}
-		public void mouseEntered(MouseEvent e) { //¸¶¿ì½º°¡ ¿µ¿ªÀ¸·Î µé¾î¿ÔÀ»¶§,
+		public void mouseEntered(MouseEvent e) { //ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,
 			
 		}
-		public void mouseExited(MouseEvent e) { //¸¶¿ì½º°¡ ¿µ¿ªÀ» ¶°³µÀ»¶§
+		public void mouseExited(MouseEvent e) { //ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			
 		}
 		public void mousePressed(MouseEvent e) {
