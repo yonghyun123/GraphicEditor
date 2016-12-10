@@ -55,6 +55,7 @@ public class GEToolBar extends JToolBar {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			GEShapes toolbarShape=toolbarButtons.valueOf(e.getActionCommand()).getShape();
+	
 			drawingPanel.setShapeTool(toolbarShape);
 		}	
 	}

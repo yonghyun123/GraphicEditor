@@ -1,5 +1,6 @@
 package shapes;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -76,6 +77,9 @@ public class GEAnchors extends Vector<Ellipse2D.Double> {
 	public void draw(Graphics2D g2D){
 		for(int i=0;i<EAnchors.values().length-1;i++){
 			Ellipse2D.Double ellipse=mAnchor.get(i);
+			g2D.setColor(Color.WHITE);
+			g2D.fill(ellipse);
+			g2D.setColor(Color.BLACK);
 			g2D.draw(ellipse);
 		}
 	}

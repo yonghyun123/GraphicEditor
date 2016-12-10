@@ -90,9 +90,10 @@ public abstract class GEShapes {
 
 		if(selected){
 			//anchors 위치까지 다시 잡아주고 그려줘야해
-			getAnchorList().computeCoordinates(mShapes.getBounds()); 
+			anchorList.computeCoordinates(this.getBounds()); 
 			anchorList.draw(g2d);
 		}
+		
 	}
 	public void moveCoordinate(Point moveP){
 		affineTransform.setToTranslation(moveP.getX(), moveP.getY());

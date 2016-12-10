@@ -28,12 +28,13 @@ public class GELine extends GEShapes {
 			anchorList.computeCoordinates(mShapes.getBounds());
 		}
 	}
-//	
-//	public boolean contains(Point point){
-//		Line2D tempLine=(Line2D)mShapes;
-//		Rectangle tempRect=new Rectangle();
-//		tempRect.setFrameFromDiagonal(tempLine.getP1(), tempLine.getP2());
-//		return tempRect.contains(point);	
-//	}
+	
+	public boolean contains(Point point){
+		Line2D tempLine=(Line2D)mShapes;
+		Rectangle tempRect=new Rectangle();
+		tempRect.setFrameFromDiagonal(tempLine.getP1(), tempLine.getP2());
+		return tempRect.contains(point);	
+		
+	}
 
 }

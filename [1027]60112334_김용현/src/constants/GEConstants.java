@@ -4,6 +4,7 @@ import shapes.GEEllipse;
 import shapes.GELine;
 import shapes.GEPolygon;
 import shapes.GERectangle;
+import shapes.GESelect;
 import shapes.GEShapes;
 
 public class GEConstants {
@@ -69,7 +70,7 @@ public class GEConstants {
 	
 	//GEToolbar
 	public enum toolbarButtons{
-		select("Image/select.gif", "Image/selectSLT.gif",null),
+		select("Image/select.gif", "Image/selectSLT.gif",new GESelect()),
 		rectangle("Image/rectangle.gif", "Image/rectangleSLT.gif", new GERectangle()),
 		ellipse("Image/ellipse.gif", "Image/ellipseSLT.gif", new GEEllipse()),
 		line("Image/line.gif", "Image/lineSLT.gif", new GELine()),

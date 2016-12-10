@@ -25,6 +25,7 @@ public class GEMenuBar extends JMenuBar {
 	public void initialize(GEDrawingPanel drawingPanel) {
 		// TODO Auto-generated method stub
 		colorMenu.init(drawingPanel);
+		editMenu.init(drawingPanel);
 		
 	}
 }
