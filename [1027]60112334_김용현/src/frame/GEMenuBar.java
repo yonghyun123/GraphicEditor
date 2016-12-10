@@ -1,22 +1,30 @@
 package frame;
 import javax.swing.JMenuBar;
 
+import menus.GEColorMenu;
 import menus.GEEditMenu;
 import menus.GEFileMenu;
 
 public class GEMenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1L;
+	private GEFileMenu fileMenu;
+	private GEEditMenu editMenu;
+	private GEColorMenu colorMenu;
 
 	public GEMenuBar() {
-		GEFileMenu fileMenu = new GEFileMenu();
+		fileMenu = new GEFileMenu();
 		this.add(fileMenu);
 		
-		GEEditMenu EditMenu=new GEEditMenu();
-		this.add(EditMenu);
+		editMenu=new GEEditMenu();
+		this.add(editMenu);
+		
+		colorMenu=new GEColorMenu();
+		this.add(colorMenu);
 	}
 
-	public void initialize() {
+	public void initialize(GEDrawingPanel drawingPanel) {
 		// TODO Auto-generated method stub
+		colorMenu.init(drawingPanel);
 		
 	}
 }
