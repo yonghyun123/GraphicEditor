@@ -4,10 +4,12 @@ import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
@@ -297,7 +299,15 @@ public class GEDrawingPanel extends JPanel {
 				}else{
 					if(shape.isSelected()){
 						EAnchors anchorType=shape.onAnchor(e.getPoint());
-						setCursor(mCursor.get(anchorType.ordinal()));
+						if(anchorType==EAnchors.RR){
+							setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
+									new ImageIcon("Image/custom.png").getImage(),
+									new Point(0,0),"custom cursor"));
+						}
+						else{
+							setCursor(mCursor.get(anchorType.ordinal()));
+						}
+						
 					}
 				}
 			}

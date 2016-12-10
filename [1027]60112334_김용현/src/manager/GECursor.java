@@ -1,7 +1,11 @@
 package manager;
 
 import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.util.Vector;
+
+import javax.swing.ImageIcon;
 
 public class GECursor extends Vector<Cursor>{
 
@@ -16,5 +20,6 @@ public class GECursor extends Vector<Cursor>{
 		add(new Cursor(Cursor.SE_RESIZE_CURSOR));
 		add(new Cursor(Cursor.HAND_CURSOR));
 		add(new Cursor(Cursor.MOVE_CURSOR));
+
 	}
 }
