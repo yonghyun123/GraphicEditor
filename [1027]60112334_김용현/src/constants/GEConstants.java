@@ -74,7 +74,9 @@ public class GEConstants {
 		rectangle("Image/rectangle.gif", "Image/rectangleSLT.gif", new GERectangle()),
 		ellipse("Image/ellipse.gif", "Image/ellipseSLT.gif", new GEEllipse()),
 		line("Image/line.gif", "Image/lineSLT.gif", new GELine()),
-		polygon("Image/polygon.gif", "Image/polygonSLT.gif", new GEPolygon());
+		polygon("Image/polygon.gif", "Image/polygonSLT.gif", new GEPolygon()),
+		backward("Image/backward.gif","Image/backward.gif",null),
+		forward("Image/forward.gif","Image/forward.gif",null);
 		
 		
 		

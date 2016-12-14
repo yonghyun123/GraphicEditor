@@ -17,7 +17,7 @@ public class GEToolBar extends JToolBar {
 	 * 	
 	 */
 	private static final long serialVersionUID = 1L;
-	private GEDrawingPanel drawingPanel; // Association 연결의 의미
+	private GEDrawingPanel drawingPanel; // Association drawingPanel
 	
 
 
@@ -38,7 +38,7 @@ public class GEToolBar extends JToolBar {
 		}	
 
 	}
-	//default 값으로 rectangle click
+	//default rectangle click
 	public void initialize() {
 		JRadioButton button=(JRadioButton) this.getComponentAtIndex(0);
 		button.doClick();
@@ -55,8 +55,14 @@ public class GEToolBar extends JToolBar {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			GEShapes toolbarShape=toolbarButtons.valueOf(e.getActionCommand()).getShape();
-	
 			drawingPanel.setShapeTool(toolbarShape);
+			JRadioButton button=(JRadioButton)e.getSource();
+			if(button.getActionCommand().equals(toolbarButtons.forward.name())){
+				drawingPanel.selectedforward();
+			}
+			else if(button.getActionCommand().equals(toolbarButtons.backward.name())){
+				drawingPanel.selectedbackward();
+			}
 		}	
 	}
 }

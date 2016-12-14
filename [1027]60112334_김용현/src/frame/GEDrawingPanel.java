@@ -58,6 +58,8 @@ public class GEDrawingPanel extends JPanel implements Printable{
 	private GEStorage mStorage;
 	private GEDoStack mDoStack;
 	private GETextRotater mTextRotater;
+	private int mFlag;
+
 
 	
 	public GEDrawingPanel(){
@@ -81,6 +83,34 @@ public class GEDrawingPanel extends JPanel implements Printable{
 	public void initialize(){
 //		mLineColor=Color.BLACK;
 		this.mDoStack.clear();
+	}
+	//forward and backward
+	public void selectedbackward(){
+		mFlag=1;
+		for(int i = 0;i< mShapelists.size();i++){
+			GEShapes s = mShapelists.get(i);
+			if(mSelectedShape.equals(s)){
+				System.out.println("check");
+				mShapelists.remove(i);
+				mShapelists.add(0,s);
+				repaint();
+				clearSelectedShapes();
+				//return;
+			}
+		}	
+	}
+	public void selectedforward(){
+		mFlag=2;
+		for(int i = 0;i< mShapelists.size();i++){
+			GEShapes s = mShapelists.get(i);
+			if(mSelectedShape.equals(s)){
+				System.out.println("check");
+				mShapelists.remove(i);
+				mShapelists.add(s);
+				repaint();
+				clearSelectedShapes();
+			}
+		}
 	}
 	public boolean getFictureUpdate(){
 		return fictureUpdate;
@@ -251,9 +281,15 @@ public class GEDrawingPanel extends JPanel implements Printable{
 	}
 	
 	private void initDrawing(Point startP){
-		mShapes=mShapes.clone();
-		mShapes.setLineColor(mLineColor);
-		mShapes.setFillColor(mFillColor);
+		if(mShapes!=null){
+			mShapes=mShapes.clone();
+			mShapes.setLineColor(mLineColor);
+			mShapes.setFillColor(mFillColor);
+		}
+		else{
+			
+		}
+	
 		//mTransfomer=new GEDrawer(mShapes);
 	}
 
@@ -308,6 +344,7 @@ public class GEDrawingPanel extends JPanel implements Printable{
 				if(mShapes instanceof GESelect){
 					mSelectedShape=onShape(e.getPoint());
 					if(mSelectedShape!=null){
+						
 						clearSelectedShapes();
 						mSelectedShape.setSelected(true);
 						mSelectedShape.onAnchor(e.getPoint());

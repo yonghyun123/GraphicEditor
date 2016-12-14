@@ -45,7 +45,7 @@ public class GETextRotater {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if(e.getKeyCode() == KeyEvent.VK_ENTER){
-				System.out.println("엔터누름");
+				System.out.println("press Enter");
 				if(!mTextField.getText().equals("")){
 					try{
 						double delta = Math.toRadians(Double.parseDouble(mTextField.getText()));
