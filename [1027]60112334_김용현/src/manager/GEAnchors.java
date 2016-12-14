@@ -35,6 +35,9 @@ public class GEAnchors extends Vector<Ellipse2D.Double> {
 		}
 		return EAnchors.NONE;
 	}
+	public Vector<Ellipse2D.Double> getAnchors(){
+		return mAnchor;
+	}
 	public EAnchors onAnchors(Point p){
 		for(Ellipse2D ellipse: mAnchor){
 			if(ellipse.contains(new Point(p))){

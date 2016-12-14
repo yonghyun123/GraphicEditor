@@ -111,5 +111,10 @@ public class GEConstants {
 	public static String SSAVEORNOT="변경 내용을 저장하시겠습니까?";
 	public static String SFILEKIND="Graphics Editor";
 	public static String SFILEEXTENSION="gps";
+	//GETextRotater
+	public final static int TEXT_POS_X_OFFSET = 10;
+	public final static int TEXT_POS_Y_OFFSET = 5;
+	public final static int TEXT_WIDTH_LENGTH = 40;
+	public final static int TEXT_HEIGHT_LENGTH = 20;
 			
 }

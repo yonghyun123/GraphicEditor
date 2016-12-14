@@ -16,10 +16,12 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
+
 import constants.GEConstants.EAnchors;
 import manager.GECursor;
 import manager.GEDoStack;
 import manager.GEStorage;
+import manager.GETextRotater;
 import shapes.GEGroup;
 import shapes.GEPolygon;
 import shapes.GESelect;
@@ -35,6 +37,7 @@ import util.GEModel;
 
 public class GEDrawingPanel extends JPanel implements Printable{
 
+	private GEDrawingPanel mInstance;
 	static private enum EState{
 		idle, drawing,Polygon,Moving,Resizing,Selecting,Rotating;
 	}
@@ -54,10 +57,12 @@ public class GEDrawingPanel extends JPanel implements Printable{
 	//component
 	private GEStorage mStorage;
 	private GEDoStack mDoStack;
+	private GETextRotater mTextRotater;
 
 	
 	public GEDrawingPanel(){
 		super();
+		mInstance=this;
 		this.setBackground(Color.white);
 		mLineColor=Color.black;
 		mFillColor=Color.WHITE;
@@ -65,6 +70,7 @@ public class GEDrawingPanel extends JPanel implements Printable{
 		mCursor=new GECursor();
 		mStorage=new GEStorage();
 		mDoStack=new GEDoStack();
+		mTextRotater=new GETextRotater();
 		mShapelists=new ArrayList<GEShapes>();
 		MouseHandler mouseEventHandler=new MouseHandler();
 		this.addMouseListener(mouseEventHandler);
@@ -138,6 +144,13 @@ public class GEDrawingPanel extends JPanel implements Printable{
 				e.printStackTrace();
 			};
 		
+	}
+	//TextRotator
+	public void freshTextRotater(){
+		if(mTextRotater != null){
+			remove(mTextRotater.getTextField());
+			mTextRotater = null;
+		}
 	}
 	//add working stack
 	public void addStack(){
@@ -290,6 +303,7 @@ public class GEDrawingPanel extends JPanel implements Printable{
 			
 		}
 		public void mousePressed(MouseEvent e) {
+			freshTextRotater();
 			if(eState == EState.idle){
 				if(mShapes instanceof GESelect){
 					mSelectedShape=onShape(e.getPoint());
@@ -351,9 +365,18 @@ public class GEDrawingPanel extends JPanel implements Printable{
 			}else if(eState==EState.Selecting){
 				((GEGrouper)mTransfomer).finalize(mShapelists);
 			}else if(eState==EState.Rotating){
-				((GERotater)mTransfomer).finalize(mShapelists);
-				addStack();
-				fictureUpdate=true;
+				if(((GERotater)mTransfomer).isMoved()){
+					((GERotater)mTransfomer).finalize(mShapelists);
+					addStack();
+					fictureUpdate=true;
+				}else{
+					System.out.println("rotation");
+					mTextRotater=new GETextRotater();
+					mTextRotater.init(mSelectedShape, mInstance);
+					add(mTextRotater.getTextField());
+					mTextRotater.requestFocus();
+				}
+				
 			}
 			eState=EState.idle;
 			repaint();
