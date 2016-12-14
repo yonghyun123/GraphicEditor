@@ -8,6 +8,10 @@ import java.awt.geom.Line2D;
 
 public class GELine extends GEShapes {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public GELine() {
 		// TODO Auto-generated constructor stub
 		super(new Line2D.Double());

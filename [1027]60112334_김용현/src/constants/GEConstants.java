@@ -22,6 +22,7 @@ public class GEConstants {
 		open("open"), 
 		save("save"),
 		saveAs("saveAs"),
+		print("print"),
 		close("close");
 		
 		private String text;

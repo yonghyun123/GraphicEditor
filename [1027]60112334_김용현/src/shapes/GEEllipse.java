@@ -8,6 +8,10 @@ import java.awt.geom.Ellipse2D;
 
 public class GEEllipse extends GEShapes {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public GEEllipse() {
 		// TODO Auto-generated constructor stub
 		super(new Ellipse2D.Double());

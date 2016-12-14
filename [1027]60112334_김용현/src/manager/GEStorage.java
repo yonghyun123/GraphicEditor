@@ -10,6 +10,7 @@ public class GEStorage {
 	public GEStorage() {
 		mTempStorage=new ArrayList<GEShapes>();
 	}
+	@SuppressWarnings("unchecked")
 	public ArrayList<GEShapes> paste(){
 		return (ArrayList<GEShapes>) mTempStorage.clone();
 	}

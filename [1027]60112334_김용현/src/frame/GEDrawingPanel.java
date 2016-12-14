@@ -7,6 +7,9 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -30,7 +33,7 @@ import transformer.GETransformer;
 import util.GEModel;
 
 
-public class GEDrawingPanel extends JPanel {
+public class GEDrawingPanel extends JPanel implements Printable{
 
 	static private enum EState{
 		idle, drawing,Polygon,Moving,Resizing,Selecting,Rotating;
@@ -390,5 +393,17 @@ public class GEDrawingPanel extends JPanel {
 			
 		}	
 		
+	}
+
+
+	@Override
+	public int print(Graphics g, PageFormat pageFormat, int pagIndex) throws PrinterException {
+		Graphics2D g2 = (Graphics2D) g;
+		if (pagIndex >= 1) {
+			return Printable.NO_SUCH_PAGE;
+		} else {
+			this.printAll(g2);
+			return Printable.PAGE_EXISTS;
+		}
 	}
 }

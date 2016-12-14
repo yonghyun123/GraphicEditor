@@ -8,6 +8,11 @@ import java.awt.geom.AffineTransform;
 
 public class GERectangle extends GEShapes {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public GERectangle(){
 		super(new Rectangle());
 	}

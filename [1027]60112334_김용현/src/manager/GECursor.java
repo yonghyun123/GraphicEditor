@@ -1,13 +1,15 @@
 package manager;
 
 import java.awt.Cursor;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.util.Vector;
 
-import javax.swing.ImageIcon;
 
 public class GECursor extends Vector<Cursor>{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public GECursor() {
 		add(new Cursor(Cursor.NW_RESIZE_CURSOR));

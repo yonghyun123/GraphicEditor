@@ -1,6 +1,7 @@
 package menus;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterJob;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
@@ -92,6 +93,7 @@ public class GEFileMenu extends JMenu {
 	}
 	
 	public void close(){
+		@SuppressWarnings("unused")
 		int reply = SaveOrNot();
 		System.exit(1);
 	}
@@ -106,7 +108,17 @@ public class GEFileMenu extends JMenu {
 		}
 		return reply;
 	}
-	
+	private void print() {
+		PrinterJob printJob = PrinterJob.getPrinterJob();
+		printJob.setPrintable(mDrawingPanel);
+		if (printJob.printDialog()) {
+			try {
+				printJob.print();
+			} catch (Exception ex) {
+				throw new RuntimeException(ex);
+			}
+		}
+	}
 	
 	private class FileMenuHandler implements ActionListener{
 
@@ -117,6 +129,7 @@ public class GEFileMenu extends JMenu {
 			case open:open();break;
 			case save:save();break;
 			case saveAs:saveAs();break;
+			case print:print();break;
 			case close:close();break;
 			}
 		}

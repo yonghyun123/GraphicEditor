@@ -5,6 +5,11 @@ import java.awt.Rectangle;
 
 public class GESelect extends GEShapes{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public GESelect() {
 		super(new Rectangle());
 		// TODO Auto-generated constructor stub

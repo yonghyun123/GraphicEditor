@@ -13,6 +13,10 @@ import constants.GEConstants.EAnchors;
 import manager.GEAnchors;
 
 public class GEGroup extends GEShapes{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<GEShapes> mShapeList;
 	private BasicStroke dashedLineStroke;
 	

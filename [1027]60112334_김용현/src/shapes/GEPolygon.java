@@ -8,6 +8,10 @@ import java.awt.geom.AffineTransform;
 
 public class GEPolygon extends GEShapes {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public GEPolygon() {
 		// TODO Auto-generated constructor stub
 		super(new Polygon());
