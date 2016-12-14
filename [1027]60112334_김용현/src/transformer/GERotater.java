@@ -12,9 +12,11 @@ public class GERotater extends GETransformer{
 	private ArrayList<GEShapes> mShapeList;
 	private Point2D.Double mCenter;
 	private double mTheta;
+	private boolean mMoved;
 
 	public GERotater(GEShapes shape) {
 		super(shape);
+		mMoved=false;
 		if(shape instanceof GEGroup){
 			mShapeList=new ArrayList<GEShapes>();
 			for(GEShapes child:((GEGroup)shape).getChildList()){
@@ -61,6 +63,12 @@ public class GERotater extends GETransformer{
 				tempShape.setSelected(true);
 			}
 		}
+	}
+	public boolean isMoved(){
+		return mMoved;
+	}
+	public void setMove(Boolean move){
+		mMoved=move;
 	}
 
 }

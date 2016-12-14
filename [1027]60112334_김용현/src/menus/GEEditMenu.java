@@ -30,6 +30,13 @@ public class GEEditMenu extends JMenu {
 			this.add(item);
 		}
 	}
+	public void undo(){
+		mDrawingPanel.undo();
+	}
+	public void redo(){
+		mDrawingPanel.redo();
+	}
+	
 	public void init(GEDrawingPanel drawingPanel){
 		mDrawingPanel=drawingPanel;
 	}
@@ -74,10 +81,10 @@ public class GEEditMenu extends JMenu {
 				unGroup();
 			}
 			else if(e.getActionCommand().equals(EEditMenuItem.Redo.getText())){
-				//group();
+				redo();
 			}
 			else if(e.getActionCommand().equals(EEditMenuItem.Undo.getText())){
-				//group();
+				undo();
 			}
 			
 		}

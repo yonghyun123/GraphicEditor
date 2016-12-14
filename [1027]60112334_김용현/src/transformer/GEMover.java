@@ -7,7 +7,7 @@ import java.awt.Point;
 import shapes.GEShapes;
 
 public class GEMover extends GETransformer {
-
+	private boolean mMoved;
 	public GEMover(GEShapes shape) {
 		// TODO Auto-generated constructor stub
 		super(shape);
@@ -18,6 +18,7 @@ public class GEMover extends GETransformer {
 	public void init(Point p) {
 		// TODO Auto-generated method stub
 		mPrevP=p;
+		mMoved=false;
 	}
 
 	@Override
@@ -29,6 +30,12 @@ public class GEMover extends GETransformer {
 		mShapes.moveCoordinate(tempP);
 		mShapes.draw(g2D);
 		mPrevP=p;
+	}
+	public boolean isMoved(){
+		return mMoved;
+	}
+	public void setMove(Boolean move){
+		mMoved=move;
 	}
 
 }

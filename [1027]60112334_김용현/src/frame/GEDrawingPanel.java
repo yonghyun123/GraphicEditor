@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 import constants.GEConstants.EAnchors;
 import manager.GECursor;
+import manager.GEDoStack;
 import manager.GEStorage;
 import shapes.GEGroup;
 import shapes.GEPolygon;
@@ -49,6 +50,9 @@ public class GEDrawingPanel extends JPanel {
 	private GECursor mCursor;
 	//component
 	private GEStorage mStorage;
+	private GEDoStack mDoStack;
+
+	
 	public GEDrawingPanel(){
 		super();
 		this.setBackground(Color.white);
@@ -57,6 +61,7 @@ public class GEDrawingPanel extends JPanel {
 		eState=EState.idle;
 		mCursor=new GECursor();
 		mStorage=new GEStorage();
+		mDoStack=new GEDoStack();
 		mShapelists=new ArrayList<GEShapes>();
 		MouseHandler mouseEventHandler=new MouseHandler();
 		this.addMouseListener(mouseEventHandler);
@@ -66,6 +71,7 @@ public class GEDrawingPanel extends JPanel {
 	
 	public void initialize(){
 //		mLineColor=Color.BLACK;
+		this.mDoStack.clear();
 	}
 	public boolean getFictureUpdate(){
 		return fictureUpdate;
@@ -130,7 +136,24 @@ public class GEDrawingPanel extends JPanel {
 			};
 		
 	}
+	//add working stack
+	public void addStack(){
+		mDoStack.push(mShapelists);
+	}
 	//------------------------------------edit menu items
+	public void push(){
+	
+	}
+	public void undo(){
+		mShapelists=mDoStack.undo();
+		mSelectedShape=null;
+		repaint();
+	}
+	public void redo(){
+		mShapelists=mDoStack.redo();
+		mSelectedShape=null;
+		repaint();
+	}
 	public void group(GEGroup group){
 		boolean check=false;
 		for(int i=mShapelists.size();i>0;i--){
@@ -170,6 +193,7 @@ public class GEDrawingPanel extends JPanel {
 		for(GEShapes shape:mStorage.paste()){
 			mShapelists.add(shape.deepCopy());
 		}
+		addStack();
 		repaint();
 	}
 	//copy
@@ -179,6 +203,7 @@ public class GEDrawingPanel extends JPanel {
 	//cut
 	public void cut(){
 		mStorage.cut(mShapelists);
+		addStack();
 		repaint();
 	}
 	//delete
@@ -190,6 +215,7 @@ public class GEDrawingPanel extends JPanel {
 				mShapelists.remove(shape);
 			}
 		}
+		addStack();
 		repaint();
 	}
 	
@@ -308,17 +334,22 @@ public class GEDrawingPanel extends JPanel {
 			
 			if(eState == EState.drawing){
 				((GEDrawer)mTransfomer).finalize(mShapelists);
+				addStack();
 				fictureUpdate=true;
 			}else if(eState==EState.Polygon){
 				fictureUpdate=true;
 				return;
 			}else if(eState==EState.Resizing){
 				((GEResizer)mTransfomer).finalize(e.getPoint());
+				addStack();
 				fictureUpdate=true;
+			}else if(eState==EState.Moving){
+				((GEMover)mTransfomer).isMoved();
 			}else if(eState==EState.Selecting){
 				((GEGrouper)mTransfomer).finalize(mShapelists);
 			}else if(eState==EState.Rotating){
 				((GERotater)mTransfomer).finalize(mShapelists);
+				addStack();
 				fictureUpdate=true;
 			}
 			eState=EState.idle;
@@ -326,8 +357,12 @@ public class GEDrawingPanel extends JPanel {
 		}
 		public void mouseDragged(MouseEvent e) {
 			if(eState!=EState.idle){
-				
 				mTransfomer.transfomer((Graphics2D)getGraphics(), e.getPoint());
+				if(mTransfomer instanceof GEMover){
+					((GEMover)mTransfomer).setMove(true);
+				}else if(mTransfomer instanceof GERotater){
+					((GERotater)mTransfomer).setMove(true);
+				}
 			}
 		}
 		public void mouseMoved(MouseEvent e) {

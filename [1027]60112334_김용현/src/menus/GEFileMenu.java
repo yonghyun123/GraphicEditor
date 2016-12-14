@@ -90,9 +90,12 @@ public class GEFileMenu extends JMenu {
 			this.mDrawingPanel.saveShapes(fileName);
 		}
 	}
+	
 	public void close(){
+		int reply = SaveOrNot();
 		System.exit(1);
 	}
+	
 	private int SaveOrNot(){
 		int reply = JOptionPane.NO_OPTION;
 		if(mDrawingPanel.getFictureUpdate()==true){

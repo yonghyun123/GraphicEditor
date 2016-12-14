@@ -10,6 +10,7 @@ import shapes.GEShapes;
 
 public class GEDrawer extends GETransformer{
 
+
 	public GEDrawer(GEShapes shape) {
 		// TODO Auto-generated constructor stub
 		super(shape);
@@ -19,6 +20,7 @@ public class GEDrawer extends GETransformer{
 	public void init(Point p) {
 		// TODO Auto-generated method stub
 		mShapes.initPosition(p);
+	
 	}
 
 	@Override
@@ -38,4 +40,5 @@ public class GEDrawer extends GETransformer{
 	public void finalize(ArrayList<GEShapes> shapeList){
 		shapeList.add(mShapes);
 	}
+
 }
