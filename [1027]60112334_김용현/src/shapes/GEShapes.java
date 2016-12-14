@@ -7,11 +7,16 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 
 import constants.GEConstants.EAnchors;
 import manager.GEAnchors;
 
-public abstract class GEShapes {
+public abstract class GEShapes implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected Shape mShapes;
 	protected Point startPoint;
 	

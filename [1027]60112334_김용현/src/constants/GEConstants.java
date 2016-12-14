@@ -104,4 +104,11 @@ public class GEConstants {
 	//GETransformer
 	public final static int DEFAULT_DASH_OFFSET=4;
 	public final static int DEFAULT_DASHEDLINE_WIDTH=1;
+	//GEMenuFile
+	public static String SFILECONFIG="config\\file.config";
+	public static String SWORKSPACE="data\\";
+	public static String SSAVEORNOT="변경 내용을 저장하시겠습니까?";
+	public static String SFILEKIND="Graphics Editor";
+	public static String SFILEEXTENSION="gps";
+			
 }

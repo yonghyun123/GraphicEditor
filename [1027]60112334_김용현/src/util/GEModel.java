@@ -1,4 +1,4 @@
-package manager;
+package util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -26,6 +26,5 @@ public class GEModel {
 		ObjectOutputStream objectOutputStream = new ObjectOutputStream(bufferedOutputStream);
 		objectOutputStream.writeObject(object);
 		objectOutputStream.close();			
-
 	}
 }

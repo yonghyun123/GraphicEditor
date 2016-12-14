@@ -13,10 +13,8 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
-
 import constants.GEConstants.EAnchors;
 import manager.GECursor;
-import manager.GEModel;
 import manager.GEStorage;
 import shapes.GEGroup;
 import shapes.GEPolygon;
@@ -28,6 +26,7 @@ import transformer.GEMover;
 import transformer.GEResizer;
 import transformer.GERotater;
 import transformer.GETransformer;
+import util.GEModel;
 
 
 public class GEDrawingPanel extends JPanel {
@@ -42,6 +41,7 @@ public class GEDrawingPanel extends JPanel {
 	private ArrayList<GEShapes> mShapelists;
 	private EState eState;
 	private GETransformer mTransfomer;
+	private boolean fictureUpdate;
 	//associative attributes
 	private Color mLineColor;
 	private Color mFillColor;
@@ -61,10 +61,14 @@ public class GEDrawingPanel extends JPanel {
 		MouseHandler mouseEventHandler=new MouseHandler();
 		this.addMouseListener(mouseEventHandler);
 		this.addMouseMotionListener(mouseEventHandler);
+		fictureUpdate=false;
 	}
 	
 	public void initialize(){
 //		mLineColor=Color.BLACK;
+	}
+	public boolean getFictureUpdate(){
+		return fictureUpdate;
 	}
 	//line color at shapes
 	public void setLineColor(Color lineColor){
@@ -103,6 +107,7 @@ public class GEDrawingPanel extends JPanel {
 	public void saveShapes(String fileName){
 		try {
 			GEModel.save(fileName, mShapelists);
+			fictureUpdate=false;
 			//updated = false;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -110,10 +115,11 @@ public class GEDrawingPanel extends JPanel {
 		}
 	}
 	//reading panel
+	@SuppressWarnings("unchecked")
 	public void readShape(String fileName){
 			try {
 				this.mShapelists = (ArrayList<GEShapes>) GEModel.read(fileName);
-				//updated = false;
+				fictureUpdate=false;
 				this.repaint();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -302,15 +308,18 @@ public class GEDrawingPanel extends JPanel {
 			
 			if(eState == EState.drawing){
 				((GEDrawer)mTransfomer).finalize(mShapelists);
-				
+				fictureUpdate=true;
 			}else if(eState==EState.Polygon){
+				fictureUpdate=true;
 				return;
 			}else if(eState==EState.Resizing){
 				((GEResizer)mTransfomer).finalize(e.getPoint());
+				fictureUpdate=true;
 			}else if(eState==EState.Selecting){
 				((GEGrouper)mTransfomer).finalize(mShapelists);
 			}else if(eState==EState.Rotating){
 				((GERotater)mTransfomer).finalize(mShapelists);
+				fictureUpdate=true;
 			}
 			eState=EState.idle;
 			repaint();
